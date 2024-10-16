@@ -1,0 +1,33 @@
+<!-- show.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook Entries</title>
+</head>
+<body>
+<h1>Notebook Entries</h1>
+
+<!-- فرم فیلتر تاریخ -->
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Filter by Date</button>
+</form>
+
+<!-- نمایش یادداشت‌ها -->
+<ul>
+    {% for note in notes %}
+        <li>
+            <strong>{{ note.title }}</strong> - {{ note.date|date:"Y-m-d H:i" }}<br>
+            <em>By: {{ note.user.username }}</em><br>  <!-- نام کاربری کاربر از طریق note.user گرفته می‌شود -->
+            {{ note.content }}
+
+        </li>
+    {% empty %}
+        <li>No notebook entries available.</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

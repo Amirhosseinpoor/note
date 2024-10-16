@@ -1,0 +1,16 @@
+
+{% block content %}
+    <div class="container">
+        <div class="col-6">
+            <h1>signup form</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p}}
+                <p><a href="{% url 'login' %}">have an account?</a></p>
+                <br>
+                <button type="submit" class="btn btn-success">sign up</button>
+
+            </form>
+        </div>
+    </div>
+{% endblock content %}
