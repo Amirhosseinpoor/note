@@ -1,33 +1,142 @@
-<!-- show.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notebook Entries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #35424a;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #35424a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2c3e50;
+        }
+
+        .link-button {
+            display: inline-block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #27ae60;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .link-button:hover {
+            background-color: #219150;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        strong {
+            font-size: 1.2em;
+        }
+
+        em {
+            font-style: italic;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-<h1>Notebook Entries</h1>
+<header>
+    <h1>Notebook Entries</h1>
+</header>
 
-<!-- فرم فیلتر تاریخ -->
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Filter by Date</button>
-</form>
+<div class="container">
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit">Logout / {{ user.username }}</button>
+    </form>
 
-<!-- نمایش یادداشت‌ها -->
-<ul>
-    {% for note in notes %}
-        <li>
-            <strong>{{ note.title }}</strong> - {{ note.date|date:"Y-m-d H:i" }}<br>
-            <em>By: {{ note.user.username }}</em><br>  <!-- نام کاربری کاربر از طریق note.user گرفته می‌شود -->
-            {{ note.content }}
+    <!-- Show My Notes link -->
+    <a href="{% url 'home' %}" class="link-button">Add Notes</a>
+    <a href="{% url 'password_change' %}" class="link-button">Change Password</a>
+    <!-- فرم فیلتر تاریخ -->
+    <form method="GET">  <!-- تغییر به GET -->
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Filter by Date</button>
+    </form>
 
-        </li>
-    {% empty %}
-        <li>No notebook entries available.</li>
-    {% endfor %}
-</ul>
+    <!-- Logout form -->
+
+
+    <!-- نمایش یادداشت‌ها -->
+    <ul>
+        {% for note in notes %}
+            <li>
+                <strong>{{ note.title }}</strong> - {{ note.date|date:"Y-m-d H:i" }}<br>
+                <em>By: {{ note.user.username }}</em><br>
+                {{ note.content }}
+            </li>
+        {% empty %}
+            <li>No notebook entries available.</li>
+        {% endfor %}
+    </ul>
+</div>
 </body>
 </html>

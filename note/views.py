@@ -1,18 +1,25 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import FormMixin, CreateView
 from .models import NoteModel
 from .forms import DateFilterForm, NoteForm
+from django.utils.dateparse import parse_date
+from django.http import Http404
+
+
+class WelcomeView(TemplateView):
+    template_name = 'welcome.html'
 
 
 class NoteView(CreateView):
     model = NoteModel
     form_class = NoteForm
     template_name = 'home.html'
-    success_url = reverse_lazy('show')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.email = self.request.user.email
         return super().form_valid(form)
 
 
@@ -22,12 +29,26 @@ class ShowView(FormMixin, ListView):
     context_object_name = 'notes'
     form_class = DateFilterForm
     ordering = ['-date']
-    success_url = reverse_lazy('show')
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(user=self.request.user)
-        date = self.request.POST.get('date')
-        if date:
-            queryset = queryset.filter(date__date=date)
+        queryset = super().get_queryset().filter(user=self.request.user)
+
+        # دریافت تاریخ از درخواست
+        date_str = self.request.GET.get('date')
+
+        if date_str:
+            # تبدیل رشته تاریخ به شیء تاریخ
+            date_obj = parse_date(date_str)
+
+            if date_obj is None:
+                raise Http404("فرمت تاریخ نادرست است.")
+
+            # فیلتر کردن کوئری بر اساس تاریخ داده شده
+            queryset = queryset.filter(date__date=date_obj)
+
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form(self.form_class)  # فرم را به context اضافه می‌کنیم
+        return context

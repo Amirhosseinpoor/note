@@ -1,85 +1,71 @@
-{% block title %}Forgot Your Password{% endblock title %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Your Password</title>
+    <title>Sign Up or Log In</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e9ecef;
             margin: 0;
             padding: 0;
         }
         .container {
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
         .form-container {
             background-color: #ffffff;
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
-            width: 100%;
             text-align: center;
+            width: 100%;
+            max-width: 400px;
         }
         h1 {
+            margin-bottom: 20px;
             color: #35424a;
             font-size: 2.5em;
-            margin-bottom: 20px;
         }
-        p {
-            font-size: 1.1em;
-            color: #555;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-        label {
-            display: block;
-            text-align: left;
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        input[type="email"] {
+        .btn {
             width: 100%;
-            padding: 15px;
-            font-size: 1.1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .btn-success {
-            width: 100%;
+            margin: 10px 0;
             padding: 15px;
             font-size: 1.2em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .btn-success {
             background-color: #28a745;
             border: none;
-            transition: background-color 0.3s ease;
         }
         .btn-success:hover {
             background-color: #218838;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
-            <h1>Forgot Your Password?</h1>
-            <p>Enter your email address below, and we’ll send you instructions to reset your password.</p>
-            <form action="" method="post">
-                {% csrf_token %}
-                <label for="email">Email Address</label>
-                <input type="email" name="email" id="email" placeholder="Enter your email" required>
-                <br>
-                <input type="submit" value="Send Me Instructions" class="btn btn-success">
-            </form>
+            <h1>Welcome!</h1>
+            <p class="mb-4">Please select an option to continue</p>
+            <a href="{% url 'signup' %}" class="btn btn-success">Sign Up</a>
+            <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
         </div>
     </div>
 

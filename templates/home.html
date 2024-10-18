@@ -5,14 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a New Note</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #35424a;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;  /* افزایش اندازه فونت */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* سایه برای عنوان */
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px; /* افزایش padding */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* سایه بیشتر */
+            border-radius: 10px; /* گوشه‌های گرد */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%; /* عرض کامل */
+            padding: 10px; /* Padding برای راحتی */
+            margin-top: 10px; /* فاصله بالا */
+            border: 1px solid #ccc; /* رنگ لبه */
+            border-radius: 5px; /* گوشه‌های گرد */
+            font-size: 1em; /* اندازه فونت */
+        }
+        button {
+            background-color: #35424a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px; /* فاصله بالای دکمه */
+            font-size: 1em; /* اندازه فونت دکمه */
+            transition: background-color 0.3s; /* انیمیشن برای تغییر رنگ */
+        }
+        button:hover {
+            background-color: #2c3e50; /* رنگ هاور */
+        }
+        .link-button {
+            display: inline-block; /* به صورت بلوکی نمایش داده شود */
+            margin: 10px 0;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #27ae60; /* رنگ سبز */
+            padding: 10px 15px; /* Padding برای دکمه */
+            border-radius: 5px; /* گوشه‌های گرد */
+            transition: background-color 0.3s; /* انیمیشن برای تغییر رنگ */
+        }
+        .link-button:hover {
+            background-color: #219150; /* رنگ هاور برای دکمه‌ها */
+        }
+    </style>
 </head>
 <body>
-<h1>Add a New Note</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <a href="{%  url  'show' %}">show my notes</a>
-    <button type="submit">Add Note</button>
-</form>
+    <header>
+        <h1>Add a New Note</h1>
+    </header>
+
+    <div class="container">
+        <!-- Logout form -->
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Logout / {{ user.username }}</button>
+        </form>
+
+        <!-- Show My Notes link -->
+        <a href="{% url 'show' %}" class="link-button">Show My Notes</a>
+        <a href="{% url 'password_change' %}" class="link-button">Change Password</a>
+
+        <!-- Add Note form -->
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Note</button>
+        </form>
+    </div>
 </body>
 </html>
