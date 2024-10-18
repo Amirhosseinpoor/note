@@ -88,7 +88,7 @@
         <a href="{% url 'password_change' %}" class="link-button">Change Password</a>
 
         <!-- Add Note form -->
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Add Note</button>

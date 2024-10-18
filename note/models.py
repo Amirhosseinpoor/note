@@ -10,6 +10,8 @@ class NoteModel(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     email = models.EmailField()
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    video = models.FileField(upload_to='videos/', null=True, blank=True)
 
 
     def __str__(self):
