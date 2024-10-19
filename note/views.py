@@ -33,22 +33,16 @@ class ShowView(FormMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
 
-        # دریافت تاریخ از درخواست
         date_str = self.request.GET.get('date')
 
         if date_str:
-            # تبدیل رشته تاریخ به شیء تاریخ
             date_obj = parse_date(date_str)
 
-            if date_obj is None:
-                raise Http404("فرمت تاریخ نادرست است.")
-
-            # فیلتر کردن کوئری بر اساس تاریخ داده شده
             queryset = queryset.filter(date__date=date_obj)
 
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = self.get_form(self.form_class)  # فرم را به context اضافه می‌کنیم
+        context['form'] = self.get_form(self.form_class)
         return context
