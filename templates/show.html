@@ -99,6 +99,14 @@
             font-style: italic;
             color: #666;
         }
+
+        .note-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 300px;
+            display: block;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -116,25 +124,29 @@
     <a href="{% url 'home' %}" class="link-button">Add Notes</a>
     <a href="{% url 'password_change' %}" class="link-button">Change Password</a>
     <!-- فرم فیلتر تاریخ -->
-    <form method="GET">  <!-- تغییر به GET -->
+    <form method="GET">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Filter by Date</button>
     </form>
 
-    <!-- Logout form -->
-
-
     <!-- نمایش یادداشت‌ها -->
     <ul>
         {% for note in notes %}
-            <li>
-                <strong>{{ note.title }}</strong> - {{ note.date|date:"Y-m-d H:i" }}<br>
-                <em>By: {{ note.user.username }}</em><br>
-                {{ note.content }}
-            </li>
-        {% empty %}
-            <li>No notebook entries available.</li>
+        <li>
+            <h2>{{ note.title }}</h2>
+            <p>{{ note.content }}</p>
+            <p><strong>By:</strong> {{ note.user.username }} <em>on {{ note.date|date:"Y-m-d H:i" }}</em></p>
+            {% if note.image %}
+                <img src="{{ note.image.url }}" alt="{{ note.title }}" class="note-image">
+            {% endif %}
+            {% if note.video %}
+                <video width="320" height="240" controls>
+                    <source src="{{ note.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% endif %}
+        </li>
         {% endfor %}
     </ul>
 </div>
